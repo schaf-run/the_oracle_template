@@ -14,7 +14,10 @@ lose lives in `kb/` or `memos/`, never only in the conversation.
   everything stored. Don't reconstruct state by re-reading the codebase.
 - **Checkpoint as you go:** update `kb/progress/CURRENT.md` at the end of
   every meaningful step — what's done, what's next, what's open. Not just
-  at session end; a context clear can happen at any time.
+  at session end; a context clear can happen at any time. A `Stop` hook
+  (`scripts/checkpoint_guard.py`) blocks once if files changed after
+  `CURRENT.md`; answer it with a checkpoint, or one line saying nothing
+  was worth recording.
 - **Durable reasoning goes to `memos/`** as it's decided, not in a
   retrospective batch. A decision recorded a day late has lost the
   alternatives that made it a decision.

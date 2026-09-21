@@ -10,7 +10,8 @@ updated: 2026-09-21
 ```
 CLAUDE.md                          agent rules — the core deliverable
 .claude/
-  settings.json                    hooks (PostToolUse rebuilds kb index)
+  settings.json                    hooks: PostToolUse rebuilds kb index,
+                                   Stop runs checkpoint_guard.py
   agents/README.md                 when to define a custom sub-agent
   skills/README.md                 skill conventions
   skills/meta-skill/SKILL.md       pre-planning gap check
@@ -25,6 +26,7 @@ memos/
 scripts/
   kb_index.py                      builds FTS index + INDEX.md
   kb_query.py                      ranked search
+  checkpoint_guard.py              Stop hook: nudge if CURRENT.md is stale
 .mcp.json.example                  shape for a project MCP server
 ```
 

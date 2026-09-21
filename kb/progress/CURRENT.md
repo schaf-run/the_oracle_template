@@ -25,7 +25,9 @@ Built and committed on branch `main` (local only, no remote):
   `knowledge`, `codemap`, `docs`, `history`.
 - `memos/` — append-only decision records. Indexed into the *same* table
   under kind `memos`, so one query reaches both stores.
-- `.claude/settings.json` — `PostToolUse` hook that rebuilds the index.
+- `.claude/settings.json` — `PostToolUse` hook that rebuilds the index,
+  and a `Stop` hook (`scripts/checkpoint_guard.py`) that blocks once when
+  files changed after this file. See memo 0003.
 - `CLAUDE.md` "Session continuity" — the rule that makes clearing context
   safe: read this file first, checkpoint it after every meaningful step.
 
@@ -37,9 +39,10 @@ and ordered `progress` first.
 
 - No git remote yet. The user declined one for now ("not yet"); revisit
   when the template is ready to clone into a real project.
-- The `PostToolUse` hook has never been observed firing — it only loads
-  when a session starts with that settings file. Not load-bearing, since
-  `kb_query.py` rebuilds on staleness, but worth confirming once.
+- Neither hook has been observed firing inside a live session yet — both
+  load only when a session starts with this settings file. Both scripts
+  are tested by piping payloads to them directly. Confirm in the next
+  fresh session: edit a file, end the turn, expect one checkpoint nudge.
 - Open question: whether to ship example skills/sub-agents beyond
   `meta-skill` and `kb`, or keep the template minimal.
 
