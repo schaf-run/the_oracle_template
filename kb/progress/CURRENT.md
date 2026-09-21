@@ -20,6 +20,13 @@ Built and committed on branch `main` (local only, no remote):
 - `.claude/skills/meta-skill/` — pre-planning gap check: reuse an existing
   skill/sub-agent, or create one if the gap is genuinely recurring.
 - `.claude/skills/kb/` — how to query and write the knowledge store.
+- `.claude/skills/choose-model/` — model tier (Haiku/Sonnet/Opus/Fable)
+  and reasoning-effort picker; applies to sessions, one-off sub-agent
+  spawns, and `.claude/agents/*.md` `model:` fields.
+- `.claude/skills/create-subagent/` — process for authoring a new
+  `.claude/agents/<name>.md`: justify the gap, scope tools, pick a
+  model, write the prompt. Points at `.claude/agents/README.md` for the
+  worked example instead of duplicating it.
 - `kb/` + `scripts/kb_index.py` + `scripts/kb_query.py` — markdown notes
   indexed into SQLite FTS5, chunked per `##` section. Kinds: `progress`,
   `knowledge`, `codemap`, `docs`, `history`.
@@ -39,12 +46,15 @@ and ordered `progress` first.
 
 - No git remote yet. The user declined one for now ("not yet"); revisit
   when the template is ready to clone into a real project.
-- Neither hook has been observed firing inside a live session yet — both
-  load only when a session starts with this settings file. Both scripts
-  are tested by piping payloads to them directly. Confirm in the next
-  fresh session: edit a file, end the turn, expect one checkpoint nudge.
-- Open question: whether to ship example skills/sub-agents beyond
-  `meta-skill` and `kb`, or keep the template minimal.
+- Both hooks' logic re-verified by piping payloads directly this
+  session: `checkpoint_guard.py` blocks when a tracked file is newer
+  than this file, no-ops when `stop_hook_active` is set, and passes
+  through cleanly when nothing changed; `kb_index.py --if-stale --quiet`
+  only rebuilds when a kb/memos source is newer than `.claude/kb.db`.
+  Still not directly observed being auto-fired by the harness
+  end-to-end (as opposed to invoked manually) — low-risk, not blocking.
+- Resolved: shipped two more example skills — `choose-model` and
+  `create-subagent` — beyond `meta-skill` and `kb`.
 
 ## How to resume
 

@@ -16,6 +16,8 @@ CLAUDE.md                          agent rules — the core deliverable
   skills/README.md                 skill conventions
   skills/meta-skill/SKILL.md       pre-planning gap check
   skills/kb/SKILL.md               how to query and write the kb
+  skills/choose-model/SKILL.md     model tier + effort picker
+  skills/create-subagent/SKILL.md  how to author .claude/agents/<name>.md
   kb.db                            GENERATED, gitignored
 kb/
   INDEX.md                         GENERATED — do not hand-edit
