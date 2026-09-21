@@ -5,6 +5,9 @@
 # Runtime counter for the reflection Stop hook — not source of truth
 .claude/reflection_state.json
 
+# Runtime marker for the meta-skill pre-plan-mode guard — not source of truth
+.claude/meta_skill_state.json
+
 .claude/settings.local.json
 __pycache__/
 .DS_Store
