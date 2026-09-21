@@ -11,3 +11,13 @@
 .claude/settings.local.json
 __pycache__/
 .DS_Store
+
+# App: node deps, build output, local storage & env
+node_modules/
+server/storage/*
+!server/storage/.gitkeep
+server/prisma/dev.db
+server/prisma/dev.db-journal
+client/dist/
+server/dist/
+.env
