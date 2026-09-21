@@ -1,13 +1,17 @@
 ---
 name: kb
-description: Query the project knowledge base before exploring the codebase, re-reading source files, or re-fetching external docs — and write findings back to it. Use at the start of a task to recall what's already known, and whenever you learn something durable worth not rediscovering.
+description: Query the project knowledge base before exploring the codebase, re-reading source files, or re-fetching external docs — and write findings and progress back to it. Use at the start of a task or after a context clear to recall state, and whenever you learn something durable worth not rediscovering.
 ---
 
 # Knowledge base
 
-`kb/` holds markdown notes; `.claude/kb.db` is a derived SQLite FTS5 index
-over them, chunked per `##` section. Searching costs a few hundred tokens;
-re-exploring a codebase costs thousands. Search first.
+`kb/` and `memos/` hold markdown notes; `.claude/kb.db` is a derived
+SQLite FTS5 index over both, chunked per `##` section. Searching costs a
+few hundred tokens; re-exploring a codebase costs thousands. Search first.
+
+**After a context clear, start here:** read `kb/progress/CURRENT.md`, then
+`scripts/kb_query.py --list`. That is the full state; don't rebuild it by
+re-reading source.
 
 ## Read
 
@@ -32,10 +36,16 @@ isn't obvious from a quick read of the code:
 
 | Kind         | Write here when you learned…                                 |
 |--------------|--------------------------------------------------------------|
+| `progress/`  | state changed — update `CURRENT.md` after every meaningful step |
 | `knowledge/` | an architectural fact, convention, invariant, or gotcha       |
 | `codemap/`   | where something lives / which module owns what                |
 | `docs/`      | the distilled answer from an external API or library doc      |
 | `history/`   | what was tried and how it turned out, especially a dead end   |
+| `../memos/`  | a decision was made — append-only, with its rejected alternatives |
+
+Checkpoint `kb/progress/CURRENT.md` as you go, not at session end. A
+context clear can happen at any time, and it is only safe if that file is
+already current.
 
 Rules:
 

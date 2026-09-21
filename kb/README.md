@@ -20,10 +20,14 @@ only when the snippet isn't enough.
 
 | Directory    | Holds                                                           |
 |--------------|-----------------------------------------------------------------|
+| `progress/`  | Resume state. `CURRENT.md` is read first after any context clear |
 | `knowledge/` | Current-state facts: architecture, conventions, invariants, gotchas |
 | `codemap/`   | Where things live: module responsibilities, entry points, ownership |
 | `docs/`      | Distilled notes from external API/library docs worth not re-fetching |
 | `history/`   | What was tried and how it turned out, so dead ends aren't re-walked |
+
+`../memos/` is indexed into the same table under kind `memos`, so a single
+query reaches both stores.
 
 ## Writing notes
 
@@ -34,6 +38,9 @@ independently. A hit should be readable without the rest of the file.
 `INDEX.md` is generated. Don't hand-edit it.
 
 ## Versus `memos/`
+
+Both are searched by the same query, so the split is about lifecycle, not
+findability:
 
 - `memos/` — decisions and their reasoning, chronological, append-only.
   A memo is a historical record and stays true even when the code moves on.

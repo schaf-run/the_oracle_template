@@ -2,15 +2,17 @@
 """Rebuild the kb FTS5 index and regenerate kb/INDEX.md."""
 
 import argparse
+import os
 import re
 import sqlite3
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 KB = ROOT / "kb"
+MEMOS = ROOT / "memos"
 DB = ROOT / ".claude" / "kb.db"
 SKIP = {"INDEX.md", "README.md", "TEMPLATE.md"}
-KIND_ORDER = ["knowledge", "codemap", "docs", "history"]
+KIND_ORDER = ["progress", "knowledge", "codemap", "docs", "history", "memos"]
 
 FRONTMATTER = re.compile(r"\A---\n(.*?)\n---\n", re.S)
 
@@ -24,13 +26,18 @@ CREATE VIRTUAL TABLE chunks USING fts5(
 
 
 def notes():
-    for path in sorted(KB.rglob("*.md")):
-        if path.parent == KB and path.name in SKIP:
+    for root in (KB, MEMOS):
+        if not root.exists():
             continue
-        yield path
+        for path in sorted(root.rglob("*.md")):
+            if path.parent == root and path.name in SKIP:
+                continue
+            yield path
 
 
 def kind_of(path):
+    if MEMOS in path.parents:
+        return "memos"
     rel = path.relative_to(KB)
     return rel.parts[0] if len(rel.parts) > 1 else "misc"
 
@@ -43,7 +50,7 @@ def parse_note(path):
         for line in m.group(1).splitlines():
             if ":" in line:
                 key, value = line.split(":", 1)
-                meta[key.strip()] = value.strip()
+                meta[key.strip()] = value.strip().strip("\"'")
         body = text[m.end():]
         offset = text[: m.end()].count("\n")
     return meta, body, offset
@@ -95,6 +102,7 @@ def build():
 
 
 def write_index(catalog):
+    KB.mkdir(parents=True, exist_ok=True)
     lines = [
         "# KB index",
         "",
@@ -110,7 +118,7 @@ def write_index(catalog):
         for note in sorted(
             (n for n in catalog if n["kind"] == kind), key=lambda n: n["path"]
         ):
-            target = Path(note["path"]).relative_to("kb")
+            target = os.path.relpath(ROOT / note["path"], KB)
             hook = note["summary"] or note["title"]
             lines.append(f"- [{note['title']}]({target}) — {hook}")
         lines.append("")
@@ -125,7 +133,7 @@ def main():
     ap.add_argument("--quiet", action="store_true")
     args = ap.parse_args()
 
-    if not KB.exists():
+    if not KB.exists() and not MEMOS.exists():
         return 0
     if args.if_stale and DB.exists() and DB.stat().st_mtime >= newest_source():
         return 0

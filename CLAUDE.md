@@ -4,6 +4,23 @@ Copy this whole directory when starting a new project. Trim anything that
 doesn't apply; add project-specific rules as you discover them (see
 "Maintaining this file" below) — don't let discoveries live only in chat.
 
+## Session continuity
+
+Context is disposable; the store is not. Anything that would be painful to
+lose lives in `kb/` or `memos/`, never only in the conversation.
+
+- **Starting up, or resuming after a context clear:** read
+  `kb/progress/CURRENT.md` first, then `scripts/kb_query.py --list` to see
+  everything stored. Don't reconstruct state by re-reading the codebase.
+- **Checkpoint as you go:** update `kb/progress/CURRENT.md` at the end of
+  every meaningful step — what's done, what's next, what's open. Not just
+  at session end; a context clear can happen at any time.
+- **Durable reasoning goes to `memos/`** as it's decided, not in a
+  retrospective batch. A decision recorded a day late has lost the
+  alternatives that made it a decision.
+- Assume the next session starts cold and remembers nothing. Write for
+  that reader.
+
 ## Big picture (before planning)
 
 - Query the knowledge base first: `scripts/kb_query.py "<topic>"`. It costs
@@ -52,9 +69,10 @@ SQLite FTS5 at `.claude/kb.db`, chunked per `##` section. Full usage in
 - Search before exploring: `scripts/kb_query.py "<topic>"` returns ranked
   `path:line` hits with snippets. Open a file only when the snippet isn't
   enough.
-- Four kinds: `knowledge/` (facts, conventions, gotchas), `codemap/` (where
-  things live), `docs/` (distilled external docs), `history/` (what was
-  tried and how it went).
+- Five kinds: `progress/` (resume state), `knowledge/` (facts,
+  conventions, gotchas), `codemap/` (where things live), `docs/` (distilled
+  external docs), `history/` (what was tried and how it went). `memos/` is
+  indexed into the same store, so one query covers everything.
 - Write a note whenever something durable cost real effort to find. Keep
   notes atomic and sections self-contained — each section is retrieved
   alone.

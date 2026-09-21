@@ -19,9 +19,14 @@ FROM chunks WHERE chunks MATCH ?
 """
 
 
-def quoted(query):
-    terms = [t for t in query.replace('"', " ").split() if t]
-    return " ".join(f'"{t}"' for t in terms)
+KIND_RANK = """
+CASE kind WHEN 'progress' THEN 0 WHEN 'knowledge' THEN 1 WHEN 'codemap' THEN 2
+          WHEN 'docs' THEN 3 WHEN 'history' THEN 4 ELSE 5 END
+"""
+
+
+def terms(query):
+    return [f'"{t}"' for t in query.replace('"', " ").split() if t]
 
 
 def run_search(con, query, kind, limit):
@@ -58,7 +63,7 @@ def main():
         if args.kind:
             sql += " WHERE kind = ?"
             params.append(args.kind)
-        rows = con.execute(sql + " ORDER BY kind, path", params).fetchall()
+        rows = con.execute(sql + f" ORDER BY {KIND_RANK}, path", params).fetchall()
         for kind, title, path in rows:
             print(f"{path}  [{kind}]  {title}")
         if not rows:
@@ -69,10 +74,18 @@ def main():
     if not query:
         ap.error("give a query, or --list")
 
-    try:
-        rows = run_search(con, query, args.kind, args.limit)
-    except sqlite3.OperationalError:
-        rows = run_search(con, quoted(query), args.kind, args.limit)
+    words = terms(query)
+    attempts = [query, " ".join(words), " OR ".join(words)]
+    rows = []
+    for attempt in attempts:
+        if not attempt:
+            continue
+        try:
+            rows = run_search(con, attempt, args.kind, args.limit)
+        except sqlite3.OperationalError:
+            continue
+        if rows:
+            break
 
     if not rows:
         print(f"kb: no match for {query!r}")
