@@ -1,0 +1,7 @@
+# Derived FTS index — rebuilt from kb/ by scripts/kb_index.py
+.claude/kb.db
+.claude/kb.db-*
+
+.claude/settings.local.json
+__pycache__/
+.DS_Store

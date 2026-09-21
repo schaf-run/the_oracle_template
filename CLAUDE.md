@@ -6,10 +6,13 @@ doesn't apply; add project-specific rules as you discover them (see
 
 ## Big picture (before planning)
 
-- Before planning, run the orientation pass in
-  `.claude/skills/meta-skill/SKILL.md`: check whether an existing skill or
-  sub-agent already covers the task, and decide whether a genuinely
-  reusable gap is worth building a new skill for right now.
+- Query the knowledge base first: `scripts/kb_query.py "<topic>"`. It costs
+  a few hundred tokens and often replaces a thousand tokens of codebase
+  exploration. See "Knowledge base" below.
+- Then run the orientation pass in `.claude/skills/meta-skill/SKILL.md`:
+  check whether an existing skill or sub-agent already covers the task, and
+  decide whether a genuinely reusable gap is worth building a new skill for
+  right now.
 - Skip this for trivial, obviously one-off asks. For anything else, know
   what already exists before you start — don't rebuild something a skill
   already does, and don't miss a real, recurring gap.
@@ -39,6 +42,24 @@ doesn't apply; add project-specific rules as you discover them (see
   shared infra) — stop and confirm even when operating autonomously.
 - Commit only when asked. When asked, match the repo's existing message
   style and never bundle unrelated changes into one commit.
+
+## Knowledge base
+
+Fast, low-context lookup store: markdown notes in `kb/`, indexed into
+SQLite FTS5 at `.claude/kb.db`, chunked per `##` section. Full usage in
+`.claude/skills/kb/SKILL.md`.
+
+- Search before exploring: `scripts/kb_query.py "<topic>"` returns ranked
+  `path:line` hits with snippets. Open a file only when the snippet isn't
+  enough.
+- Four kinds: `knowledge/` (facts, conventions, gotchas), `codemap/` (where
+  things live), `docs/` (distilled external docs), `history/` (what was
+  tried and how it went).
+- Write a note whenever something durable cost real effort to find. Keep
+  notes atomic and sections self-contained — each section is retrieved
+  alone.
+- `kb/` is what's true *now*; prune stale notes aggressively. `kb/INDEX.md`
+  and the `.db` are generated — never hand-edit, never commit the `.db`.
 
 ## Memos (decision & context log)
 
