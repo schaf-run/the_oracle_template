@@ -2,6 +2,9 @@
 .claude/kb.db
 .claude/kb.db-*
 
+# Runtime counter for the reflection Stop hook — not source of truth
+.claude/reflection_state.json
+
 .claude/settings.local.json
 __pycache__/
 .DS_Store

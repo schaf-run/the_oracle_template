@@ -33,8 +33,13 @@ Built and committed on branch `main` (local only, no remote):
 - `memos/` — append-only decision records. Indexed into the *same* table
   under kind `memos`, so one query reaches both stores.
 - `.claude/settings.json` — `PostToolUse` hook that rebuilds the index,
-  and a `Stop` hook (`scripts/checkpoint_guard.py`) that blocks once when
-  files changed after this file. See memo 0003.
+  and two `Stop` hooks: `checkpoint_guard.py` (blocks once when files
+  changed after this file, see memo 0003) and `reflection_guard.py`
+  (blocks once every 5th completed task to run the `reflection` skill,
+  see memo 0004).
+- `.claude/skills/reflection/` — retrospective over the last 5 tasks:
+  what got done, whether a recurring pattern is worth a new skill, what
+  could be improved. Writes findings to `kb/history/`.
 - `CLAUDE.md` "Session continuity" — the rule that makes clearing context
   safe: read this file first, checkpoint it after every meaningful step.
 
@@ -55,6 +60,12 @@ and ordered `progress` first.
   end-to-end (as opposed to invoked manually) — low-risk, not blocking.
 - Resolved: shipped two more example skills — `choose-model` and
   `create-subagent` — beyond `meta-skill` and `kb`.
+- Added `reflection` skill + `reflection_guard.py` Stop hook (every 5
+  tasks). "Task" = one Stop event, the closest thing the hook system
+  exposes — see memo 0004 for why and for the interaction with
+  `checkpoint_guard.py`. Verified the counter cycle (1→5, blocks and
+  resets on 5) and the `stop_hook_active` back-off by piping payloads
+  directly; not yet observed live over 5 real turns in a session.
 
 ## How to resume
 
