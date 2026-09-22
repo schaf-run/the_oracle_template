@@ -10,7 +10,13 @@ updated: 2026-09-22
 `the_oracle_template` is a reusable Claude Code project template: a rules
 file (`CLAUDE.md`) plus scaffolding for session continuity, a knowledge
 base, memos, skills, and hooks. Copy this whole directory when starting a
-new project.
+new project — but copy deliberately, not whatever branch happens to be
+checked out: `oracle-test` (this branch) carries a full day of
+stress-test-specific `kb/history/` notes (Telegram plugin saga, 3D-app
+build/removal, branch juggling) that are noise for a fresh project. Copy
+`main` plus the proven mechanism commits merged into `oracle-dev` (agents,
+meta-skill guard, reflection, deliver-research) — not `oracle-test`'s
+history.
 
 An earlier session built a real app (a 3D model upload/viewer) directly in
 this repo to exercise the template. That app's code, plans, and
@@ -39,7 +45,16 @@ template-mechanics reference; this file stays a resume pointer only.
 
 ## Latest reflection
 
-`kb/history/2026-09-22-oracle-test-branch-and-telegram-mcp-planning.md`
+A second user-requested audit (this one from a fresh context) found and
+fixed: a stale "5 tasks" reference in `.claude/skills/README.md` left
+over from memo 0010's cycle widen, an undocumented gap in memo numbering,
+`deliver-research/SKILL.md` hardcoded to Telegram specifically, and
+`oracle-dev` missing memo 0010's reflection-cycle-widen commit. The
+branch-copy guidance above (which branch to actually copy for a new
+project) was added as part of this pass. See `git log` on `oracle-test`
+and `oracle-dev` for the exact commits.
+
+Earlier: `kb/history/2026-09-22-oracle-test-branch-and-telegram-mcp-planning.md`
 — `oracle-test` branch stress-tests the template with a real build (a
 self-hosted Telegram MCP connector, planned but not yet implemented —
 plan file at `/home/schaf_run/.claude/plans/bubbly-dancing-waterfall.md`).
