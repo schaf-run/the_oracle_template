@@ -29,3 +29,19 @@ repo), since it applies to any project where they interact via the
 Telegram plugin — but it's recorded here too so it travels with the
 repo to a different machine/session. See `memos/0008-researcher-
 subagent.md` for the concrete instance this was first learned from.
+
+## Refinement: the Telegram `reply` tool is fully blocked *inside* plan mode
+
+Discovered while planning `architect` (memo 0009): plan mode's read-only
+sandbox blocks the Telegram `reply` tool outright, not just
+`ExitPlanMode` — so there's no way to send a Telegram message at all
+while still inside plan mode, even for a clarifying question mid-plan.
+`AskUserQuestion` **is** allowed inside plan mode and does reach a
+Telegram-driven user (confirmed twice this session — they answered
+model-tiering and Plan-vs-architect questions asked this way). So: for
+anything that must reach the user *while still in plan mode* (a
+clarifying question, an unplanned design pivot), use `AskUserQuestion`,
+packing any needed explanation into the question/option text — don't
+try `reply`, it will be rejected. Save `reply` (with the plan doc
+attached) for after the plan is finished, same as the base convention
+above.
