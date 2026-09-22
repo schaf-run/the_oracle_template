@@ -117,8 +117,15 @@ ranked by BM25 and ordered `progress` first.
 
 ## Latest reflection
 
-`kb/history/2026-09-22-researcher-runs-and-architect-agent.md` — two
-`researcher` runs followed the exact same deliver pattern twice, so it
+`kb/history/2026-09-22-decommission-cycle-and-design-skill-install.md` —
+covers the auditor/decommission/guard-fix/memory-rule cycle plus a
+separate design-skill research-and-install task. One real gotcha
+(`marketplace add` defaulting to user scope) was self-caught and
+documented; no new skill gap met the recurrence bar yet (design-skill
+discovery+install has only happened once so far — watch for a repeat).
+
+Earlier: `kb/history/2026-09-22-researcher-runs-and-architect-agent.md` —
+two `researcher` runs followed the exact same deliver pattern twice, so it
 became `.claude/skills/deliver-research/`; built `architect` (memo 0009)
 with a user-corrected tool scope. (That note also originally flagged
 that plan mode blocks the Telegram `reply` tool; superseded now that the
