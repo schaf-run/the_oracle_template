@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Stop hook: every 5th completed task, block once and nudge the reflection skill."""
+"""Stop hook: every 10th completed task, block once and nudge the reflection skill."""
 
 import json
 import sys
@@ -7,7 +7,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 STATE = ROOT / ".claude" / "reflection_state.json"
-EVERY = 5
+EVERY = 10
 
 
 def load_count():

@@ -1,6 +1,6 @@
 ---
 name: reflection
-description: Retrospective pass over the last batch of completed tasks — triggered automatically by a Stop hook every 5 tasks, or invoked manually (e.g. "run reflection"). Reviews what got done, whether a recurring pattern is worth turning into a skill, and what could be improved in how the work happened. Not for reviewing a single diff or PR — that's code-review.
+description: Retrospective pass over the last batch of completed tasks — triggered automatically by a Stop hook every 10 tasks, or invoked manually (e.g. "run reflection"). Reviews what got done, whether a recurring pattern is worth turning into a skill, and what could be improved in how the work happened. Not for reviewing a single diff or PR — that's code-review.
 ---
 
 # Reflection
@@ -10,7 +10,8 @@ and friction that a single task is too small to notice.
 
 "Task" here means one Stop event — roughly one user request handled
 start to finish. `scripts/reflection_guard.py` counts these and fires
-every 5th one; see `memos/0004-reflection-skill-and-hook.md` for why.
+every 10th one; see `memos/0004-reflection-skill-and-hook.md` and
+`memos/0010-reflection-cycle-and-auto-commit.md` for why.
 
 ## Process
 
@@ -36,9 +37,16 @@ every 5th one; see `memos/0004-reflection-skill-and-hook.md` for why.
    (a new skill, a changed convention), also record it in `memos/` per
    the usual rule — the history note is the retrospective, the memo is
    the decision.
-6. **Nothing to report is a valid outcome.** If the last 5 tasks were
+6. **Nothing to report is a valid outcome.** If the last 10 tasks were
    routine and nothing surfaced, say so in one line and don't write a
    note just to have written one.
+7. **Commit the reflection output.** If step 5 wrote or changed
+   anything (`kb/history/`, `kb/knowledge/`, `memos/`, `kb/INDEX.md`,
+   `kb/progress/CURRENT.md`'s "Latest reflection" pointer), commit those
+   files in their own commit before ending the turn — this is a standing
+   exception to "commit only when asked," scoped to reflection's own
+   output only. Don't bundle unrelated pending changes into it. If step
+   6 applied and nothing was written, there's nothing to commit.
 
 ## Anti-patterns
 
