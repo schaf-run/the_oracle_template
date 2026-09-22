@@ -152,6 +152,9 @@ the code.
   spawn re-derives context, which costs more than doing it directly.
 - Fork (not a fresh agent) when you want to keep shared context but keep
   the sub-task's noisy tool output out of the main thread.
+- Never have more than 2 sub-agents running at once. If a task would
+  benefit from more parallelism than that, queue the rest rather than
+  launching them all in one batch.
 
 ## Maintaining this file
 
