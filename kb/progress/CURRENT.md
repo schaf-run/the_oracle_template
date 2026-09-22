@@ -21,7 +21,11 @@ history if needed.
 ## Template contents (current)
 
 - `CLAUDE.md` — the agent rules: big picture, planning, executing,
-  knowledge base, memos, skills, hooks, MCP servers, sub-agents.
+  knowledge base, memos, skills, hooks, MCP servers, sub-agents. Its
+  "Creating sub-agents" section now also caps concurrency: never run
+  more than 2 sub-agents at once, queue the rest (user instruction,
+  2026-09-22; also saved to personal cross-session memory since it's a
+  general orchestration preference, not just this repo).
 - `.claude/skills/meta-skill/` — pre-planning gap check: reuse an existing
   skill/sub-agent, or create one if the gap is genuinely recurring.
 - `.claude/skills/kb/` — how to query and write the knowledge store.
