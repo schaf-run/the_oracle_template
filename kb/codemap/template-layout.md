@@ -14,6 +14,8 @@ CLAUDE.md                          agent rules — the core deliverable
                                    Stop runs checkpoint_guard.py then
                                    reflection_guard.py
   agents/README.md                 when to define a custom sub-agent
+  agents/researcher.md             read-only research agent (Read/Grep/
+                                   Glob/WebSearch/WebFetch), see memo 0008
   skills/README.md                 skill conventions
   skills/meta-skill/SKILL.md       pre-planning gap check
   skills/kb/SKILL.md               how to query and write the kb
