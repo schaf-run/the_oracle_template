@@ -7,7 +7,8 @@ updated: 2026-09-22
 
 # Reflection — researcher-agent commits, remote-control question
 
-Covers the tasks since `kb/history/2026-09-22-telegram-qa-and-concurrent-current-md-edit.md`.
+Covers the tasks since `kb/history/2026-09-22-telegram-qa-and-concurrent-current-md-edit.md`
+(removed 2026-09-22, memo 0011 — its substance was Telegram Q&A).
 
 ## What happened
 

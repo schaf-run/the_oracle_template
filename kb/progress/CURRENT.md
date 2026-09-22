@@ -16,7 +16,11 @@ An earlier session built a real app (a 3D model upload/viewer) directly in
 this repo to exercise the template. That app's code, plans, and
 app-specific kb notes/memos have since been removed at the user's request
 so the repo holds only the template itself — see `git log` for that
-history if needed.
+history if needed. A later audit (2026-09-22, see memo 0011) also removed
+the `kb/history/` reflection notes that were substantively about that app
+or the since-removed Telegram plugin, once their few durable findings
+were confirmed captured elsewhere (or migrated first, e.g.
+`kb/knowledge/plan-mode-skip-blind-spot.md`).
 
 ## Template contents (current)
 
@@ -98,29 +102,34 @@ ranked by BM25 and ordered `progress` first.
 
 ## Latest reflection
 
-`kb/history/2026-09-22-concurrency-cap-and-telegram-removal.md` —
-covered the sub-agent concurrency cap (now in `CLAUDE.md` and personal
-memory), the Telegram plugin removal, and a trivial file-size Q&A. No
-recurring pattern worth a new skill. One durable gotcha came out of the
-Telegram removal: `claude plugin uninstall <name>` needs the same
-`--scope` flag the plugin was installed with, or it fails — now in
-`kb/knowledge/claude-plugin-uninstall-scope.md`.
+`kb/history/2026-09-22-researcher-runs-and-architect-agent.md` — two
+`researcher` runs followed the exact same deliver pattern twice, so it
+became `.claude/skills/deliver-research/`; built `architect` (memo 0009)
+with a user-corrected tool scope. (That note also originally flagged
+that plan mode blocks the Telegram `reply` tool; superseded now that the
+plugin is gone.)
 
-Earlier: `kb/history/2026-09-22-researcher-runs-and-architect-agent.md`
-(two `researcher` runs followed the exact same deliver pattern twice, so
-it became `.claude/skills/deliver-research/`; built `architect`
-(memo 0009) with a user-corrected tool scope; found plan mode blocks the
-Telegram `reply` tool entirely, `AskUserQuestion` is the only channel
-that still reaches Telegram while planning — documented in
-`kb/knowledge/telegram-plan-mode-approval.md` before that note was
-pruned as stale once the Telegram plugin was removed),
-`kb/history/2026-09-22-researcher-agent-commit-and-remote-control.md`
-(researcher sub-agent built end-to-end; Telegram/plan-mode approval
-convention mirrored from personal memory into `kb/knowledge/` so it
-travels with the repo), `kb/history/2026-09-22-telegram-qa-and-concurrent-current-md-edit.md`
-(CURRENT.md can be edited concurrently by another session — one
-occurrence), `kb/history/2026-09-22-checkpoint-guard-friction.md`
-(guard is mtime-only — convention fix in memo 0007).
+Earlier: `kb/history/2026-09-22-researcher-agent-commit-and-remote-control.md`
+(researcher sub-agent built end-to-end; the lesson that a personal
+cross-session memory about *this project's* conventions should be
+mirrored into `kb/knowledge/` or a memo so it travels with the repo),
+`kb/history/2026-09-22-checkpoint-guard-friction.md` (guard is
+mtime-only — convention fix in memo 0007).
+
+Removed 2026-09-22 (memo 0011): three history notes whose substance was
+the now-gone 3D-model app or Telegram plugin, once confirmed their
+durable content already lived elsewhere — the sub-agent concurrency cap
+(`CLAUDE.md`/personal memory), the `claude plugin uninstall --scope`
+gotcha (`kb/knowledge/claude-plugin-uninstall-scope.md`), and the 3D-app
+removal (top of this file). One finding had nowhere else to live and was
+migrated first: a `meta_skill_guard.py` blind spot where skipping
+`EnterPlanMode` entirely (not just skipping the check before it) evades
+the guard — now `kb/knowledge/plan-mode-skip-blind-spot.md`. The
+concurrent-`CURRENT.md`-edit risk noted in the third removed file had no
+migration target and no fix proposed (one occurrence, watched not
+acted on) — flagging here in case it recurs: nothing in this template
+guards against two sessions writing `CURRENT.md` at once beyond the
+`Edit` tool's own staleness warning.
 
 ## Session note (2026-09-22, later)
 

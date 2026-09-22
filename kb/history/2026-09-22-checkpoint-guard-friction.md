@@ -7,7 +7,8 @@ updated: 2026-09-22
 
 # Reflection — session-start Q&A and checkpoint guard friction
 
-Covers the tasks since `kb/history/2026-09-22-remote-branch-and-app-removal.md`.
+Covers the tasks since `kb/history/2026-09-22-remote-branch-and-app-removal.md`
+(removed 2026-09-22, memo 0011 — its substance was the 3D-app removal).
 
 ## What happened
 
