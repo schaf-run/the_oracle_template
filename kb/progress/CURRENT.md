@@ -91,13 +91,26 @@ ranked by BM25 and ordered `progress` first.
 
 ## Latest reflection
 
-`kb/history/2026-09-22-concurrency-cap-and-telegram-removal.md` —
-covered the sub-agent concurrency cap (now in `CLAUDE.md` and personal
-memory), the Telegram plugin removal, and a trivial file-size Q&A. No
-recurring pattern worth a new skill. One durable gotcha came out of the
-Telegram removal: `claude plugin uninstall <name>` needs the same
-`--scope` flag the plugin was installed with, or it fails — now in
-`kb/knowledge/claude-plugin-uninstall-scope.md`.
+`kb/history/2026-09-22-oracle-test-branch-and-telegram-mcp-planning.md` —
+`oracle-test` branch created off `oracle-dev` to stress-test the template
+with a genuine build (a self-hosted Telegram MCP connector, planned but
+not yet implemented — plan file at
+`/home/schaf_run/.claude/plans/bubbly-dancing-waterfall.md`). Found a
+real meta-skill gap-check miss: the check only asked "which agent
+implements this," never "which agent plans this," so it skipped
+`architect` on a task that needed it — caught only because the user
+asked why. Routed to `architect` after the fact; it found a genuine bug
+in the draft (a local-filesystem-path return value meaningless to a
+remote MCP client) and produced the fix. User then asked for a bloat
+audit of the template itself: 9 memos/543 lines, 7 kb/history notes/405
+lines, 6 hook scripts/453 lines, all about the template's own machinery,
+none about shipped product. Corrections proposed (reword
+`meta-skill/SKILL.md` step 2 to separate planning-fit from
+implementation-fit; compact closed-out `kb/history/` sagas like the now-
+dead Telegram plugin instead of leaving fragments; move "how do the
+hooks/skills currently work" content out of this file into
+`kb/knowledge/`/`kb/codemap/`) but **not yet applied** — awaiting user
+confirmation.
 
 Earlier: `kb/history/2026-09-22-researcher-runs-and-architect-agent.md`
 (two `researcher` runs followed the exact same deliver pattern twice, so
