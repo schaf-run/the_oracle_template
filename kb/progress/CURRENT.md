@@ -59,8 +59,24 @@ ranked by BM25 and ordered `progress` first.
 - `origin` is `git@github.com:schaf-run/the_oracle_template.git`.
 - `main` — the clean template, pushed to `origin/main`.
 - `dev` — general working branch off `main`, tracks `origin/dev`.
-- `oracle-dev` — current branch, created off `dev` for new work.
-- The app-removal cleanup (this update) is not yet committed.
+- `oracle-dev` — current branch, created off `dev` for new work. Two
+  commits ahead of `dev` so far: `385437a` (app removal) and `452994f`
+  (reflection note below). Not yet pushed.
+- Open: commits on this machine are attributed to an auto-configured
+  git identity (`Pavel Nenarokov <schaf_run@...twc1.net>`, not the
+  user's own name/email) — git warns on every commit. Offered to set
+  `user.name`/`user.email` for this repo; user hasn't asked for it yet.
+
+## Latest reflection
+
+`kb/history/2026-09-22-remote-branch-and-app-removal.md` — this
+session's 5 tasks (remote connect, checkout, branch creation, app
+removal). No new skill needed. One thing to watch, not yet acted on: a
+multi-file task (the app removal) went straight to edits without ever
+entering plan mode, which sidesteps the `meta_skill_guard.py` hook
+entirely since it only fires on `EnterPlanMode` — see the note for
+detail. Only one occurrence so far, so no hook change yet; revisit if
+it recurs.
 
 ## How to resume
 
