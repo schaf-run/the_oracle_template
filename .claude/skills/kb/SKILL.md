@@ -56,6 +56,9 @@ Rules:
 - Rewrite and prune freely. `kb/` describes what's true *now*; a stale
   note is worse than a missing one. (Durable decision records go in
   `memos/` instead, which is append-only.)
+- If you also saved a personal cross-session memory (outside this repo)
+  that's project-specific rather than a general preference, mirror the
+  durable part here too — it won't travel with the repo otherwise.
 - Never hand-edit `kb/INDEX.md` — it's generated.
 
 ## Index maintenance

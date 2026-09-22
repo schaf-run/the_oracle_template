@@ -21,6 +21,13 @@ lose lives in `kb/` or `memos/`, never only in the conversation.
 - **Durable reasoning goes to `memos/`** as it's decided, not in a
   retrospective batch. A decision recorded a day late has lost the
   alternatives that made it a decision.
+- **A personal cross-session memory that's actually about this project
+  mirrors into the repo too.** A memory system outside this repo (if the
+  harness has one) doesn't travel with the repo to another machine or
+  account. If something saved there documents *this project's*
+  conventions rather than a general preference of the user's, write the
+  project-relevant part into `kb/knowledge/` or `memos/` in the same
+  turn — don't leave it only in personal memory.
 - Assume the next session starts cold and remembers nothing. Write for
   that reader.
 
