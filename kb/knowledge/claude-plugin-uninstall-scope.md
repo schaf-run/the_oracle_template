@@ -1,6 +1,6 @@
 ---
-title: claude plugin uninstall needs explicit --scope for project-scoped plugins
-summary: "claude plugin uninstall <name>" fails silently/errors if the plugin was installed with --scope project; must repeat the same scope flag to remove it.
+title: claude plugin CLI scope gotchas (install/uninstall/marketplace add)
+summary: "claude plugin uninstall <name>" fails silently/errors if the plugin was installed with --scope project; must repeat the same scope flag to remove it. Separately, "claude plugin marketplace add" defaults to user scope even when the plugins it serves are installed --scope project, so the marketplace source itself won't travel with the repo unless added with --scope project too.
 tags: [cli, plugins, gotcha]
 updated: 2026-09-22
 ---
@@ -28,3 +28,20 @@ it spawned (e.g. a bot process) or remove its stale pid file — check for
 and kill those separately. Credentials/config the plugin used (tokens,
 `.env`, access files) live outside the repo and aren't touched by
 uninstall either; only remove those if the user actually asks.
+
+## claude plugin marketplace add defaults to user scope
+
+`claude plugin marketplace add <repo>` declares the marketplace source in
+*user* settings by default, even if every plugin from it is then installed
+with `--scope project`. That split is a trap: `enabledPlugins` in
+`.claude/settings.json` (git-tracked) will list e.g.
+`design-research@designer-skills`, but nothing in the repo says where
+`designer-skills` comes from — a fresh clone (or another machine) can't
+resolve the marketplace and the plugin install is effectively broken for
+anyone but the session that ran the original `add`.
+
+Fix: pass `--scope project` to `marketplace add` too, so the source lands
+in `extraKnownMarketplaces` inside `.claude/settings.json` alongside
+`enabledPlugins`. Re-running `add --scope project` on a marketplace
+already added at user scope is safe and idempotent — it just adds the
+project-scope declaration without erroring or re-cloning.

@@ -219,6 +219,39 @@ for two direct fixes, all four now done:
 Five commits on `oracle-dev`, pushed: one per artifact plus this
 checkpoint.
 
+## Session note (2026-09-22, design skills installed)
+
+User asked for website-design Claude Code skills; researched options
+externally (no such skill existed locally), compared 6 candidates on
+maintenance/trust signals, and installed the 2 best-supported ones at
+`--scope project` so they're git-tracked in `.claude/settings.json`:
+
+1. **`frontend-design@claude-plugins-official`** — Anthropic's own
+   aesthetic-guardrail skill (already present in the pre-configured
+   `claude-plugins-official` marketplace, no marketplace add needed).
+2. **9 plugins from `designer-skills@Owl-Listener`**
+   (`design-research`, `design-systems`, `ux-strategy`, `ui-design`,
+   `interaction-design`, `prototyping-testing`, `design-ops`,
+   `designer-toolkit`, `visual-critique`) — the website/product design
+   practice collection from that marketplace's ~33 plugins; skipped its
+   unrelated org/leadership/AI-alignment bundles as out of scope for
+   "designing websites."
+
+Hit a scope gotcha doing this: `claude plugin marketplace add
+Owl-Listener/designer-skills` (no flag) declared the marketplace in
+*user* settings by default, so the 9 `enabledPlugins` entries it added to
+the git-tracked `.claude/settings.json` would have been unresolvable on a
+fresh clone. Fixed by re-running `marketplace add --scope project`
+(idempotent, safe to repeat) — now captured in
+`kb/knowledge/claude-plugin-uninstall-scope.md` (renamed in spirit, not
+in filename, to cover install/uninstall/marketplace-add scope gotchas
+generally; left the filename as-is since `CURRENT.md` and memo 0011
+already reference it by that name).
+
+`.claude/settings.json` diff (uncommitted at this checkpoint, pending
+user go-ahead): `enabledPlugins` gained the 10 entries above,
+`extraKnownMarketplaces.designer-skills` points at the GitHub repo.
+
 ## How to resume
 
 1. Read this file.
