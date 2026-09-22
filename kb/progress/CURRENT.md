@@ -29,7 +29,9 @@ were confirmed captured elsewhere (or migrated first, e.g.
   "Creating sub-agents" section now also caps concurrency: never run
   more than 2 sub-agents at once, queue the rest (user instruction,
   2026-09-22; also saved to personal cross-session memory since it's a
-  general orchestration preference, not just this repo).
+  general orchestration preference, not just this repo). "Session
+  continuity" now also requires mirroring a project-specific personal
+  cross-session memory into `kb/knowledge/`/`memos/` — see memo 0015.
 - `.claude/skills/meta-skill/` — pre-planning gap check: reuse an existing
   skill/sub-agent, or create one if the gap is genuinely recurring.
 - `.claude/skills/kb/` — how to query and write the knowledge store.
@@ -48,20 +50,28 @@ were confirmed captured elsewhere (or migrated first, e.g.
   condensed Telegram summary with the doc attached. Added after the
   pattern repeated twice — see
   `kb/history/2026-09-22-researcher-runs-and-architect-agent.md`.
+- `.claude/skills/decommission/` — remove a feature/integration and sweep
+  `kb/`, `memos/`, skills, agents, `CLAUDE.md`, and settings for now-stale
+  references, migrating anything durable first. Codifies the pattern that
+  repeated three times (3D-app removal, Telegram removal, memo 0011's
+  history prune) — see `memos/0013-decommission-skill.md`.
 - `kb/` + `scripts/kb_index.py` + `scripts/kb_query.py` — markdown notes
   indexed into SQLite FTS5, chunked per `##` section. Kinds: `progress`,
   `knowledge`, `codemap`, `docs`, `history`.
 - `memos/` — append-only decision records. Indexed into the *same* table
   under kind `memos`, so one query reaches both stores.
-- `.claude/settings.json` — hooks: `PreToolUse` on `EnterPlanMode` runs
-  `meta_skill_guard.py` (hard-blocks unless the meta-skill orientation
-  ran since the last plan-mode entry); `PostToolUse` rebuilds the kb
-  index and (on `Skill`) tracks meta-skill invocations via
+- `.claude/settings.json` — hooks: `PreToolUse` on
+  `EnterPlanMode|Write|Edit|Bash` runs `meta_skill_guard.py` (hard-blocks
+  a plan-mode entry, a second distinct file touched, or a bulk-mutating
+  `Bash` command, unless a meta-skill check or plan-mode pass already
+  happened this turn — see memos 0006 and 0014); `PostToolUse` rebuilds
+  the kb index and (on `Skill`) tracks meta-skill invocations via
   `meta_skill_track.py`; `Stop` runs `checkpoint_guard.py` (blocks once
-  when files changed after this file, see memo 0003) then
+  when files changed after this file, see memo 0003), then
   `reflection_guard.py` (blocks once every 10th completed task to run
   the `reflection` skill and, per its process, commit its own output —
-  see memos 0004 and 0010).
+  see memos 0004 and 0010), then `meta_skill_state_reset.py` (resets the
+  guard's per-turn state unconditionally — memo 0014).
 - `.mcp.json.example` — shape for a project MCP server config.
 - `.claude/agents/researcher.md` — read-only research role (`Read, Grep,
   Glob, WebSearch, WebFetch`, no edit/run/spawn access). Model tier
@@ -74,6 +84,11 @@ were confirmed captured elsewhere (or migrated first, e.g.
   "detail the whole thing in one shot." Orchestrator convention: reuse
   the same agent instance across section-detail calls rather than
   fresh-spawning each time — see `memos/0009-architect-subagent.md`.
+- `.claude/agents/auditor.md` — read-only repo-wide relevance sweep
+  (`Read, Grep, Glob, Bash`-inspection-only; no edits). Classifies each
+  hit as stale/removable, durable-elsewhere-already, durable-not-yet-
+  captured, or incidental. Pairs with `decommission` for its sweep step
+  — see `memos/0012-auditor-subagent.md`.
 
 Search behaviour: `kb_query.py` tries exact syntax, then AND of all
 terms, then OR, so natural-language questions still land. Results are
@@ -168,6 +183,41 @@ didn't document that the numbering sequence can have gaps (e.g. memo
 generalized to "the project's configured reply channel" so it isn't
 misleading dead weight if this template is copied into a project without
 that plugin.
+
+## Session note (2026-09-22, auditor/decommission/guard-fix/memory-rule)
+
+User approved two of this session's own earlier suggestions plus asked
+for two direct fixes, all four now done:
+
+1. **`auditor` sub-agent** (memo 0012) — read-only repo-wide relevance
+   sweep, pairs with `decommission`.
+2. **`decommission` skill** (memo 0013) — the remove-then-sweep procedure
+   that's been done by hand three times now, codified.
+3. **Closed the `meta_skill_guard.py` blind spot** (memo 0014) — the
+   guard used to only fire on `EnterPlanMode`; now also gates the second
+   distinct file touched via `Write`/`Edit` and bulk-mutating `Bash`
+   commands (`git rm`, `git mv`, `rm -r`/`-rf`/`-fr`, `find -delete`)
+   unless a meta-skill check or plan-mode pass already happened this
+   turn. New `Stop` hook `meta_skill_state_reset.py` resets that state
+   every turn. Verified with 12 piped test-payload scenarios. Known
+   accepted gap (not fixed): the reset hook fires even on a `Stop` a
+   later hook blocks-and-retries, so state can reset mid-sequence — see
+   memo 0014's "Consequences" for the narrow case this could affect.
+   `kb/knowledge/plan-mode-skip-blind-spot.md` was rewritten in place to
+   describe the current heuristic and its known limits rather than the
+   now-fixed historical gap.
+4. **Memory-mirroring rule** (memo 0015) — added to `CLAUDE.md`'s
+   "Session continuity" and `.claude/skills/kb/SKILL.md`'s "Rules": a
+   personal cross-session memory about *this project's* conventions must
+   be mirrored into `kb/knowledge/`/`memos/` in the same turn. Not a
+   hook — the memory directory's path isn't a stable thing to hardcode
+   across machines, and "is this project-specific" needs judgment.
+   Checked both current personal memories for this project: neither
+   needed migrating (concurrency cap already in `CLAUDE.md`; the
+   Telegram one is moot now that the plugin's gone).
+
+Five commits on `oracle-dev`, pushed: one per artifact plus this
+checkpoint.
 
 ## How to resume
 
