@@ -64,38 +64,38 @@ ranked by BM25 and ordered `progress` first.
 - `origin` is `git@github.com:schaf-run/the_oracle_template.git`.
 - `main` — the clean template, pushed to `origin/main`.
 - `dev` — general working branch off `main`, tracks `origin/dev`.
-- `oracle-dev` — current branch, created off `dev` for new work. Two
-  commits ahead of `dev` so far: `385437a` (app removal) and `452994f`
-  (reflection note below). Not yet pushed.
+- `oracle-dev` — current branch, created off `dev` for new work. 8
+  commits ahead of `dev` (app removal, reflection notes, telegram plugin
+  enable, checkpoint-guard convention memo, researcher sub-agent — see
+  `git log --oneline dev..oracle-dev`). Not yet pushed.
 - Open: commits on this machine are attributed to an auto-configured
   git identity (`Pavel Nenarokov <schaf_run@...twc1.net>`, not the
   user's own name/email) — git warns on every commit. Offered to set
   `user.name`/`user.email` for this repo; user hasn't asked for it yet.
 
-## Since this session (not yet reflected)
-
-Built the `researcher` sub-agent end to end: meta-skill gap check → plan
-mode (plan saved at
-`/home/schaf_run/.claude/plans/cozy-growing-umbrella.md`) → sent the plan
-to the user over Telegram (plan-mode's own approval UI doesn't reach a
-Telegram-only user) → approved → created
-`.claude/agents/researcher.md` and `memos/0008-researcher-subagent.md`.
-Not yet committed to git. `reflection_guard.py` hasn't fired on this yet
-— will get picked up in the next reflection pass.
-
 ## Latest reflection
 
-`kb/history/2026-09-22-telegram-qa-and-concurrent-current-md-edit.md` —
-routine Telegram Q&A. Surfaced that `CURRENT.md` can be edited
-concurrently by another process/session with no protection beyond the
-`Edit` tool's own staleness warning (seen once, watch for recurrence).
+`kb/history/2026-09-22-researcher-agent-commit-and-remote-control.md` —
+built the `researcher` sub-agent end to end (meta-skill gap check → plan
+mode, plan saved at
+`/home/schaf_run/.claude/plans/cozy-growing-umbrella.md` → sent via
+Telegram for approval since plan-mode's own UI doesn't reach a
+Telegram-only user → approved → committed as 5 granular commits). Fixed
+a real gap found during the reflection itself: the Telegram/plan-mode
+approval convention had only been saved to personal cross-session
+memory, which doesn't travel with the repo — mirrored into
+`kb/knowledge/telegram-plan-mode-approval.md`. Also declined a
+"can you enable remote control yourself" request honestly (no tool for
+it) rather than guessing at steps.
 
-Earlier notes: `kb/history/2026-09-22-checkpoint-guard-friction.md`
-(guard is mtime-only, doesn't clear on a chat-only reply — convention
-fix in memo 0007) and
-`kb/history/2026-09-22-remote-branch-and-app-removal.md` (multi-file
-edits without entering plan mode sidestep `meta_skill_guard.py` — one
-occurrence, watching for recurrence).
+Earlier notes: `kb/history/2026-09-22-telegram-qa-and-concurrent-current-md-edit.md`
+(CURRENT.md can be edited concurrently by another session, no
+protection beyond `Edit`'s staleness warning — one occurrence),
+`kb/history/2026-09-22-checkpoint-guard-friction.md` (guard is
+mtime-only, doesn't clear on a chat-only reply — convention fix in memo
+0007), `kb/history/2026-09-22-remote-branch-and-app-removal.md`
+(multi-file edits without entering plan mode sidestep
+`meta_skill_guard.py` — one occurrence, watching for recurrence).
 
 ## How to resume
 
