@@ -81,6 +81,13 @@ SQLite FTS5 at `.claude/kb.db`, chunked per `##` section. Full usage in
   alone.
 - `kb/` is what's true *now*; prune stale notes aggressively. `kb/INDEX.md`
   and the `.db` are generated — never hand-edit, never commit the `.db`.
+- `history/` stays append-only day to day — it's a log, not current
+  state. But when a saga it covers is fully closed (the feature it was
+  about is removed, the decision is settled and won't be revisited),
+  compact its fragments into one closed-out note rather than leaving
+  them as permanent clutter. Only fold in the closed-out material —
+  leave any still-relevant content that happens to share a file with it
+  (an unrelated decision, a convention still in use) exactly where it is.
 
 ## Memos (decision & context log)
 

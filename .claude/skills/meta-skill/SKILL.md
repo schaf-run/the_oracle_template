@@ -17,7 +17,13 @@ already exists, and don't miss a real, recurring gap.
    - `.claude/skills/*/SKILL.md` in this repo, in case a project-specific
      skill exists but wasn't surfaced.
    - `.claude/agents/*.md` for a sub-agent already scoped for this kind of
-     work.
+     work — check **planning fit and implementation fit separately**.
+     "No agent can implement this" is not "no agent fits" if the task is
+     about to go through `EnterPlanMode`: check explicitly whether a
+     planning-only agent (e.g. `architect`, if defined in this repo) fits
+     *that* step before concluding no match. A plan-only or read-only
+     agent can still be the match even when nothing here can execute the
+     work itself.
 3. **Match found** — use it. Don't recreate it under a new name.
 4. **No match** — ask: will this workflow recur, in this project or a
    future one? (See the "Skills" rule in the root `CLAUDE.md`: one-off

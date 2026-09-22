@@ -15,15 +15,10 @@ Covers the tasks since `kb/history/2026-09-22-checkpoint-guard-friction.md`.
    window: wrote `memos/0007-checkpoint-guard-nothing-to-record-still-
    touches-file.md` (convention: a no-op checkpoint must still touch
    `CURRENT.md`) and updated `CURRENT.md`.
-2. Telegram: "hi" → greeted back.
-3. Telegram: "just checking if everything is working" → confirmed.
-4. Telegram: "so i can send you files now?" → confirmed, explained how
-   photos vs. documents arrive.
-5. Telegram: "any restrictions for the files?" → answered with Telegram
-   Bot API size limits (20MB download / 50MB send).
-6. Telegram: "can we make thi cap bigger?" → explained it's a Bot API
-   platform limit, not a plugin setting; not something to change
-   casually (self-hosted Bot API server territory).
+2. Routine Telegram capability Q&A (connectivity check, file send/receive,
+   Bot API size limits) — consolidated into
+   `kb/history/2026-09-22-telegram-plugin-saga-closed.md` now that the
+   plugin's saga is closed out.
 
 ## Skill-gap check
 

@@ -23,11 +23,12 @@ Covers the tasks since `kb/history/2026-09-22-researcher-agent-commit-and-remote
    only per section, limited output) → meta-skill gap check (built-in
    `Plan` type is close but lacks the staged-disclosure discipline) →
    plan mode → user corrected the tool-scope reasoning mid-plan (add
-   `Bash`/web, not exclude them) → discovered `ExitPlanMode` *and* the
-   Telegram `reply` tool are both blocked inside plan mode; `AskUserQuestion`
-   is what actually reaches the user → used it twice successfully →
-   approved → created `.claude/agents/architect.md` +
-   `memos/0009-architect-subagent.md`, committed as 3 commits.
+   `Bash`/web, not exclude them) → discovered a plan-mode edge case
+   (detail folded into
+   `kb/history/2026-09-22-telegram-plugin-saga-closed.md`, since it
+   surfaced via the Telegram channel plugin) → approved → created
+   `.claude/agents/architect.md` + `memos/0009-architect-subagent.md`,
+   committed as 3 commits.
 4. This reflection.
 
 ## Skill-gap check
@@ -47,19 +48,11 @@ README rather than just noting the pattern.
   them), the plan file was updated in place with the reasoning change
   made explicit rather than silently swapped — this is worth keeping as
   the default response to a mid-plan correction.
-- Real friction, now documented: plan mode blocks *all* non-readonly
-  tools including the Telegram `reply` tool, not just `ExitPlanMode`'s
-  own approval UI. This is the second refinement to
-  `kb/knowledge/telegram-plan-mode-approval.md` in as many sessions —
-  the Telegram/plan-mode interaction keeps surfacing new edges
-  (approval UI invisible → now reply blocked entirely). `AskUserQuestion`
-  turned out to be the actual channel that reaches a Telegram user mid-plan,
-  which resolved both instances so far. Not proposing a bigger fix (e.g.
-  avoiding `EnterPlanMode` altogether for Telegram-driven sessions) since
-  the `AskUserQuestion` workaround is now documented and has worked
-  twice — but flagging that a third distinct edge case here would be
-  worth stepping back and reconsidering the plan-mode-over-Telegram
-  approach more structurally rather than patching edge by edge.
+- Real friction found and resolved via `AskUserQuestion` — detail (a
+  general lesson about plan mode blocking every non-readonly tool,
+  including a channel's reply tool) consolidated into
+  `kb/history/2026-09-22-telegram-plugin-saga-closed.md` since it
+  surfaced through the now-removed Telegram plugin.
 
 ## Outcome
 

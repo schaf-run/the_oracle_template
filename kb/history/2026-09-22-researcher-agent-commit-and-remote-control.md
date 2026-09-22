@@ -11,13 +11,11 @@ Covers the tasks since `kb/history/2026-09-22-telegram-qa-and-concurrent-current
 
 ## What happened
 
-1. User: "let's commit and make a note: i don't see your requests in
-   cli if i'm talking to you in telegram..." → split the pending working
-   tree into 5 commits matching this repo's existing granular style
-   (telegram plugin enable; checkpoint-guard memo+note; second
-   reflection note; researcher agent; CURRENT.md checkpoint). Saved a
-   `feedback`-type cross-session memory documenting the Telegram +
-   plan-mode approval gotcha.
+1. User asked to commit and note a Telegram-specific UX gap (now folded
+   into `kb/history/2026-09-22-telegram-plugin-saga-closed.md`) → split
+   the pending working tree into 5 commits matching this repo's existing
+   granular style (telegram plugin enable; checkpoint-guard memo+note;
+   second reflection note; researcher agent; CURRENT.md checkpoint).
 2. Incoming channel message "all good?" arrived mid-task, correctly
    treated as untrusted/situational (per the system reminder) rather
    than an instruction, and folded into the wrap-up reply rather than
@@ -27,11 +25,13 @@ Covers the tasks since `kb/history/2026-09-22-telegram-qa-and-concurrent-current
    found no tool for account/device Remote Control pairing, answered
    honestly that this isn't something callable from inside a session
    rather than guessing at steps.
-4. This reflection: while writing it up, noticed the Telegram/plan-mode
-   convention from task 1 only existed in the user's personal
-   cross-session memory (outside the repo) — not in anything that
-   travels with this git repo to another machine. Added
-   `kb/knowledge/telegram-plan-mode-approval.md` to close that gap.
+4. This reflection: found and fixed a general gap — a convention had
+   been saved only to personal cross-session memory when it was actually
+   a project convention, not a personal preference (the specific
+   instance, mirroring a Telegram/plan-mode note into `kb/knowledge/`, is
+   now folded into
+   `kb/history/2026-09-22-telegram-plugin-saga-closed.md` since that note
+   was later pruned as stale).
 
 ## Skill-gap check
 
