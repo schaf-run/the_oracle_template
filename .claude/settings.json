@@ -46,7 +46,5 @@
       }
     ]
   },
-  "enabledPlugins": {
-    "telegram@claude-plugins-official": true
-  }
+  "enabledPlugins": {}
 }
