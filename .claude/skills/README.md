@@ -18,6 +18,10 @@ Skills shipped with this template:
 - `deliver-research/` — after the `researcher` sub-agent hands back a
   report, write the full findings to a scratchpad file and send a
   condensed Telegram summary with the doc attached.
+- `decommission/` — remove a feature or integration and sweep `kb/`,
+  `memos/`, skills, agents, `CLAUDE.md`, and settings for now-stale
+  references, migrating anything durable first. Pairs with the
+  `auditor` sub-agent for the sweep step.
 
 Only add a new skill once a workflow has been used more than once or the
 user asks for a slash command explicitly. Keep the trigger description
