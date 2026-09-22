@@ -12,7 +12,7 @@ Skills shipped with this template:
 - `choose-model/` — which model tier and reasoning effort to use for a
   task, a sub-agent, or an agent definition.
 - `create-subagent/` — how to define a new `.claude/agents/<name>.md`.
-- `reflection/` — retrospective over the last 5 tasks, triggered by a
+- `reflection/` — retrospective over the last 10 tasks, triggered by a
   `Stop` hook (`scripts/reflection_guard.py`); reviews for skill gaps
   and process improvements.
 - `deliver-research/` — after the `researcher` sub-agent hands back a

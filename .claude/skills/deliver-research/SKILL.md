@@ -1,14 +1,15 @@
 ---
 name: deliver-research
-description: After the `researcher` sub-agent hands back a report, write the full findings to a scratchpad markdown file and send the user a condensed, mobile-scannable summary over Telegram with the full doc attached. Use whenever a researcher report needs to reach a Telegram-driven user — not for short answers that already fit in one message.
+description: After the `researcher` sub-agent hands back a report, write the full findings to a scratchpad markdown file and send the user a condensed, mobile-scannable summary over their configured reply channel (e.g. Telegram) with the full doc attached. Use whenever a researcher report needs to reach a user on a chat-style channel — not for short answers that already fit in one message, and not applicable at all if no such channel is configured for this project (plain chat replies don't need this).
 ---
 
 # Delivering a researcher report
 
 The `researcher` sub-agent (`.claude/agents/researcher.md`, memo 0008)
 returns long, fully-sourced reports — often several thousand words with
-inline URLs. Pasting that whole thing into a Telegram reply is both hard
-to read on mobile and buries the actual decision-relevant findings.
+inline URLs. Pasting that whole thing into a chat-channel reply (Telegram
+or similar) is both hard to read on mobile and buries the actual
+decision-relevant findings.
 
 ## Process
 
@@ -29,13 +30,15 @@ to read on mobile and buries the actual decision-relevant findings.
      if the report flagged that distinction.
    - Keep it skimmable on a phone screen — short paragraphs or a tight
      bulleted list, not the report's full section structure.
-4. Send via the Telegram `reply` tool: the condensed summary as `text`,
-   the scratchpad file path in `files`.
+4. Send via the project's configured channel reply tool (e.g. Telegram's
+   `reply`): the condensed summary as `text`, the scratchpad file path in
+   `files`.
 
 ## Anti-patterns
 
-- Pasting the full report text into the Telegram message — defeats the
-  point of condensing, and Telegram will split it into multiple parts.
+- Pasting the full report text into the chat message — defeats the point
+  of condensing, and most chat channels will split it into multiple parts
+  anyway.
 - Condensing so hard that specific evidence (named companies, real
   numbers) gets lost — the user asked for *proven*/evidenced findings;
   keep the concrete examples, cut the connective prose.
