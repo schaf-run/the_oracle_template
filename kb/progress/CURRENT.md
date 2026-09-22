@@ -49,6 +49,11 @@ history if needed.
   `reflection_guard.py` (blocks once every 5th completed task to run the
   `reflection` skill, see memo 0004).
 - `.mcp.json.example` — shape for a project MCP server config.
+- `.claude/agents/researcher.md` — first real custom agent (not just the
+  README stub): read-only research role (`Read, Grep, Glob, WebSearch,
+  WebFetch`, no edit/run/spawn access). Model tier chosen per call
+  against a user-approved policy rather than fixed in frontmatter — see
+  `memos/0008-researcher-subagent.md`.
 
 Search behaviour: `kb_query.py` tries exact syntax, then AND of all
 terms, then OR, so natural-language questions still land. Results are
@@ -67,16 +72,30 @@ ranked by BM25 and ordered `progress` first.
   user's own name/email) — git warns on every commit. Offered to set
   `user.name`/`user.email` for this repo; user hasn't asked for it yet.
 
+## Since this session (not yet reflected)
+
+Built the `researcher` sub-agent end to end: meta-skill gap check → plan
+mode (plan saved at
+`/home/schaf_run/.claude/plans/cozy-growing-umbrella.md`) → sent the plan
+to the user over Telegram (plan-mode's own approval UI doesn't reach a
+Telegram-only user) → approved → created
+`.claude/agents/researcher.md` and `memos/0008-researcher-subagent.md`.
+Not yet committed to git. `reflection_guard.py` hasn't fired on this yet
+— will get picked up in the next reflection pass.
+
 ## Latest reflection
 
-`kb/history/2026-09-22-remote-branch-and-app-removal.md` — this
-session's 5 tasks (remote connect, checkout, branch creation, app
-removal). No new skill needed. One thing to watch, not yet acted on: a
-multi-file task (the app removal) went straight to edits without ever
-entering plan mode, which sidesteps the `meta_skill_guard.py` hook
-entirely since it only fires on `EnterPlanMode` — see the note for
-detail. Only one occurrence so far, so no hook change yet; revisit if
-it recurs.
+`kb/history/2026-09-22-telegram-qa-and-concurrent-current-md-edit.md` —
+routine Telegram Q&A. Surfaced that `CURRENT.md` can be edited
+concurrently by another process/session with no protection beyond the
+`Edit` tool's own staleness warning (seen once, watch for recurrence).
+
+Earlier notes: `kb/history/2026-09-22-checkpoint-guard-friction.md`
+(guard is mtime-only, doesn't clear on a chat-only reply — convention
+fix in memo 0007) and
+`kb/history/2026-09-22-remote-branch-and-app-removal.md` (multi-file
+edits without entering plan mode sidestep `meta_skill_guard.py` — one
+occurrence, watching for recurrence).
 
 ## How to resume
 
