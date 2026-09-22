@@ -15,6 +15,9 @@ Skills shipped with this template:
 - `reflection/` — retrospective over the last 5 tasks, triggered by a
   `Stop` hook (`scripts/reflection_guard.py`); reviews for skill gaps
   and process improvements.
+- `deliver-research/` — after the `researcher` sub-agent hands back a
+  report, write the full findings to a scratchpad file and send a
+  condensed Telegram summary with the doc attached.
 
 Only add a new skill once a workflow has been used more than once or the
 user asks for a slash command explicitly. Keep the trigger description
