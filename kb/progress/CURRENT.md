@@ -35,6 +35,11 @@ history if needed.
 - `.claude/skills/reflection/` — retrospective over the last 5 tasks:
   what got done, whether a recurring pattern is worth a new skill, what
   could be improved. Writes findings to `kb/history/`.
+- `.claude/skills/deliver-research/` — after `researcher` hands back a
+  report, write the full findings to a scratchpad file and send a
+  condensed Telegram summary with the doc attached. Added after the
+  pattern repeated twice — see
+  `kb/history/2026-09-22-researcher-runs-and-architect-agent.md`.
 - `kb/` + `scripts/kb_index.py` + `scripts/kb_query.py` — markdown notes
   indexed into SQLite FTS5, chunked per `##` section. Kinds: `progress`,
   `knowledge`, `codemap`, `docs`, `history`.
@@ -70,52 +75,37 @@ ranked by BM25 and ordered `progress` first.
 - `origin` is `git@github.com:schaf-run/the_oracle_template.git`.
 - `main` — the clean template, pushed to `origin/main`.
 - `dev` — general working branch off `main`, tracks `origin/dev`.
-- `oracle-dev` — current branch, created off `dev` for new work. 8
+- `oracle-dev` — current branch, created off `dev` for new work. Many
   commits ahead of `dev` (app removal, reflection notes, telegram plugin
-  enable, checkpoint-guard convention memo, researcher sub-agent — see
-  `git log --oneline dev..oracle-dev`). Not yet pushed.
+  enable, researcher + architect sub-agents, deliver-research skill —
+  see `git log --oneline dev..oracle-dev`). Not yet pushed.
 - Open: commits on this machine are attributed to an auto-configured
   git identity (`Pavel Nenarokov <schaf_run@...twc1.net>`, not the
   user's own name/email) — git warns on every commit. Offered to set
   `user.name`/`user.email` for this repo; user hasn't asked for it yet.
 
-## Since this session (not yet reflected)
-
-Sent the `researcher` agent on two real research tasks (proven AI-driven
-business models; zero-budget marketing channels for a software agency —
-both delivered as condensed Telegram summaries + attached full docs).
-Then built a second agent, `architect` (memo 0009): discovered mid-plan
-that the Telegram `reply` tool is fully blocked inside plan mode (not
-just `ExitPlanMode`) — `AskUserQuestion` is the only way to reach a
-Telegram user while still planning; used it twice successfully this
-session and documented the refinement in
-`kb/knowledge/telegram-plan-mode-approval.md`. Tool scope for
-`architect` changed mid-design per direct user correction (added
-`Bash`/web tools) — see memo 0009 for why. Not yet committed.
-
 ## Latest reflection
 
-`kb/history/2026-09-22-researcher-agent-commit-and-remote-control.md` —
-built the `researcher` sub-agent end to end (meta-skill gap check → plan
-mode, plan saved at
-`/home/schaf_run/.claude/plans/cozy-growing-umbrella.md` → sent via
-Telegram for approval since plan-mode's own UI doesn't reach a
-Telegram-only user → approved → committed as 5 granular commits). Fixed
-a real gap found during the reflection itself: the Telegram/plan-mode
-approval convention had only been saved to personal cross-session
-memory, which doesn't travel with the repo — mirrored into
-`kb/knowledge/telegram-plan-mode-approval.md`. Also declined a
-"can you enable remote control yourself" request honestly (no tool for
-it) rather than guessing at steps.
+`kb/history/2026-09-22-researcher-runs-and-architect-agent.md` — two
+`researcher` runs (proven AI-driven business models; zero-budget agency
+marketing channels) followed the exact same deliver pattern twice, so it
+became `.claude/skills/deliver-research/`. Then built `architect`
+(memo 0009): user corrected the initial tool-scope reasoning mid-plan
+(add `Bash`/web, don't exclude them), and plan mode turned out to block
+the Telegram `reply` tool entirely, not just `ExitPlanMode` —
+`AskUserQuestion` is the only channel that reaches a Telegram user while
+still planning (worked twice). Documented as a refinement to
+`kb/knowledge/telegram-plan-mode-approval.md`; flagged that a *third*
+distinct plan-mode/Telegram edge case would be worth a more structural
+fix rather than another patch.
 
-Earlier notes: `kb/history/2026-09-22-telegram-qa-and-concurrent-current-md-edit.md`
-(CURRENT.md can be edited concurrently by another session, no
-protection beyond `Edit`'s staleness warning — one occurrence),
-`kb/history/2026-09-22-checkpoint-guard-friction.md` (guard is
-mtime-only, doesn't clear on a chat-only reply — convention fix in memo
-0007), `kb/history/2026-09-22-remote-branch-and-app-removal.md`
-(multi-file edits without entering plan mode sidestep
-`meta_skill_guard.py` — one occurrence, watching for recurrence).
+Earlier: `kb/history/2026-09-22-researcher-agent-commit-and-remote-control.md`
+(researcher sub-agent built end-to-end; Telegram/plan-mode approval
+convention mirrored from personal memory into `kb/knowledge/` so it
+travels with the repo), `kb/history/2026-09-22-telegram-qa-and-concurrent-current-md-edit.md`
+(CURRENT.md can be edited concurrently by another session — one
+occurrence), `kb/history/2026-09-22-checkpoint-guard-friction.md`
+(guard is mtime-only — convention fix in memo 0007).
 
 ## How to resume
 
