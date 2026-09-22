@@ -81,8 +81,8 @@ ranked by BM25 and ordered `progress` first.
 - `dev` — general working branch off `main`, tracks `origin/dev`.
 - `oracle-dev` — current branch, created off `dev` for new work. Many
   commits ahead of `dev` (app removal, reflection notes, telegram plugin
-  enable, researcher + architect sub-agents, deliver-research skill —
-  see `git log --oneline dev..oracle-dev`). Not yet pushed.
+  enable/disable, researcher + architect sub-agents, deliver-research
+  skill — see `git log --oneline dev..oracle-dev`). Not yet pushed.
 - Open: commits on this machine are attributed to an auto-configured
   git identity (`Pavel Nenarokov <schaf_run@...twc1.net>`, not the
   user's own name/email) — git warns on every commit. Offered to set
@@ -110,6 +110,26 @@ travels with the repo), `kb/history/2026-09-22-telegram-qa-and-concurrent-curren
 (CURRENT.md can be edited concurrently by another session — one
 occurrence), `kb/history/2026-09-22-checkpoint-guard-friction.md`
 (guard is mtime-only — convention fix in memo 0007).
+
+## Session note (2026-09-22, later)
+
+Telegram plugin removed at user's request ("works bad, seems useless"):
+`claude plugin uninstall telegram --scope project` (plain `uninstall
+telegram` failed first — plugin was project-scoped, not user-scoped, so
+`--scope project` was required). This cleared `enabledPlugins` in
+`.claude/settings.json` and the entry in
+`~/.claude/plugins/installed_plugins.json`. Also killed the still-running
+bot process (PID 13786, a `bun` process) and removed the stale
+`~/.claude/channels/telegram/bot.pid`; left the bot token
+(`~/.claude/channels/telegram/.env`) and `access.json` in place since
+those weren't asked for and live outside the repo. Pruned
+`kb/knowledge/telegram-plan-mode-approval.md` (a plugin-specific
+convention, now stale here) and reran `kb_index.py`; kept the `history/`
+entries since those are logs of what happened, not current-state claims.
+The `.claude/skills/telegram:access` / `telegram:configure` skills and
+`.claude/agents` references to Telegram in `deliver-research` still
+mention it — untouched since they're inert without the plugin and not
+part of what was asked.
 
 ## How to resume
 
