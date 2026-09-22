@@ -36,7 +36,7 @@ history if needed.
   `.claude/agents/<name>.md`: justify the gap, scope tools, pick a
   model, write the prompt. Points at `.claude/agents/README.md` for the
   worked example instead of duplicating it.
-- `.claude/skills/reflection/` — retrospective over the last 5 tasks:
+- `.claude/skills/reflection/` — retrospective over the last 10 tasks:
   what got done, whether a recurring pattern is worth a new skill, what
   could be improved. Writes findings to `kb/history/`.
 - `.claude/skills/deliver-research/` — after `researcher` hands back a
@@ -83,7 +83,14 @@ ranked by BM25 and ordered `progress` first.
 - `oracle-dev` — current branch, created off `dev` for new work. Many
   commits ahead of `dev` (app removal, reflection notes, telegram plugin
   enable/disable, researcher + architect sub-agents, deliver-research
-  skill — see `git log --oneline dev..oracle-dev`). Not yet pushed.
+  skill — see `git log --oneline dev..oracle-dev`). Pushed to
+  `origin/oracle-dev`.
+- `oracle-test` — a separate stress-test branch off `oracle-dev`, used to
+  exercise the template with a real build. Two audit passes there found
+  fixes that belong here too; both have now been cherry-picked/ported
+  onto `oracle-dev` (see the session note below) — check
+  `git log --oneline oracle-dev..oracle-test` before assuming this branch
+  has everything oracle-test does.
 - Open: commits on this machine are attributed to an auto-configured
   git identity (`Pavel Nenarokov <schaf_run@...twc1.net>`, not the
   user's own name/email) — git warns on every commit. Offered to set
@@ -134,6 +141,20 @@ The `.claude/skills/telegram:access` / `telegram:configure` skills and
 `.claude/agents` references to Telegram in `deliver-research` still
 mention it — untouched since they're inert without the plugin and not
 part of what was asked.
+
+## Session note (2026-09-22, audit follow-up)
+
+A bloat/optimisation audit run from `oracle-test` (fresh context) found
+`oracle-dev` was missing `oracle-test`'s reflection-cycle widen (memo
+0010: 5 → 10 tasks) — cherry-picked that commit here. Also found and
+fixed here directly: `.claude/skills/README.md` still said "5 tasks" in
+two places (this file included) after that widen, `memos/README.md`
+didn't document that the numbering sequence can have gaps (e.g. memo
+0005 was removed with the 3D-app code it was about), and
+`deliver-research/SKILL.md` was hardcoded to Telegram specifically —
+generalized to "the project's configured reply channel" so it isn't
+misleading dead weight if this template is copied into a project without
+that plugin.
 
 ## How to resume
 
