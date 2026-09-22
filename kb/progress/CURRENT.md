@@ -129,7 +129,11 @@ concurrent-`CURRENT.md`-edit risk noted in the third removed file had no
 migration target and no fix proposed (one occurrence, watched not
 acted on) — flagging here in case it recurs: nothing in this template
 guards against two sessions writing `CURRENT.md` at once beyond the
-`Edit` tool's own staleness warning.
+`Edit` tool's own staleness warning. The two surviving notes that used to
+chain off a removed file's name (`checkpoint-guard-friction.md`,
+`researcher-agent-commit-and-remote-control.md`) had their "covers the
+tasks since" pointer annotated with the removal instead of left
+dangling.
 
 ## Session note (2026-09-22, later)
 
