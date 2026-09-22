@@ -1,32 +1,33 @@
 ---
-title: meta_skill_guard.py only fires on EnterPlanMode, not on skipping plan mode
-summary: A large multi-file task can go straight from investigation to Edit/Write/Bash without ever calling EnterPlanMode, which evades the meta-skill guard entirely rather than tripping it.
+title: meta_skill_guard.py's bulk-Bash detection is a heuristic, not exhaustive
+summary: The guard now blocks a second distinct file touched via Write/Edit and a handful of bulk-mutating Bash patterns without a prior meta-skill check or plan-mode pass — but the Bash pattern list is a best-effort heuristic, not a complete detector.
 tags: [hooks, meta-skill, plan-mode, gotcha]
 updated: 2026-09-22
 ---
 
-# meta_skill_guard.py only fires on EnterPlanMode, not on skipping plan mode
+# meta_skill_guard.py's bulk-Bash detection is a heuristic, not exhaustive
 
-`scripts/meta_skill_guard.py` (memo 0006) hard-blocks `EnterPlanMode`
-unless the `meta-skill` orientation ran first. It says nothing about
-tasks that should have entered plan mode at all — CLAUDE.md's own bar is
-"anything touching more than one file" — but went straight from
-investigation to `Edit`/`Write`/`Bash` instead.
+Originally: `scripts/meta_skill_guard.py` only fired on `EnterPlanMode`,
+so a multi-file task that never called it (observed once: a ~40-file
+`git rm` deletion) evaded the check entirely rather than tripping it.
+Fixed in memo 0014 — see that memo for the full before/after.
 
-## Observed once
+## Current behavior
 
-A ~40-file deletion (removing an app that no longer belongs in this repo)
-skipped `EnterPlanMode` entirely. Because the hook only fires as a
-`PreToolUse` matcher on `EnterPlanMode`, it never triggered — skipping
-plan mode evades the guard rather than tripping it, unlike skipping just
-the meta-skill check before an actual `EnterPlanMode` call (which memo
-0006 does catch).
+The guard now also gates `Write`/`Edit` (blocks on the second distinct
+file touched, excluding `kb/progress/CURRENT.md`/`kb/INDEX.md`) and
+`Bash` (blocks on a regex match against `git rm`, `git mv`,
+`rm -r`/`-rf`/`-fr`, `find ... -delete`) — unless a meta-skill check or
+`EnterPlanMode` pass already happened this turn (state in
+`.claude/meta_skill_state.json`, reset every turn by
+`scripts/meta_skill_state_reset.py`).
 
-## Status
+## Known limit
 
-Only seen once so far, so per this repo's own "must actually recur" bar
-this hasn't become a new hook. If it recurs, the likely fix is a broader
-`PreToolUse` trigger (e.g. on multi-file `Write`/`Edit`/`Bash` batches
-past some file-count threshold) since `EnterPlanMode` isn't a mandatory
-gate today. See `memos/0006-enforce-meta-skill-before-plan-mode.md` for
-the existing hook design this would extend.
+The `Bash` regex is a best-effort pattern list, not a real detector of
+"this command will touch multiple files." It won't catch, for example, a
+custom script invoked via `Bash` that itself writes many files
+transitively, `sed -i` across a glob, or a bulk `mv`/`cp` with wildcards
+that don't match the listed patterns. If a new bypass shape like this
+recurs, extend `BULK_BASH` in `scripts/meta_skill_guard.py` rather than
+trying to write a general "detect any multi-file mutation" parser.

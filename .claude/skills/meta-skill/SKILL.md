@@ -35,6 +35,17 @@ already exists, and don't miss a real, recurring gap.
 5. State the decision in one line before moving on: which skill/agent
    you're using, or that none fit and why, or what you're creating.
 
+## Enforcement
+
+`scripts/meta_skill_guard.py` (`PreToolUse`, memo 0006 + memo 0014)
+hard-blocks not just `EnterPlanMode` but also the *second* distinct file
+touched via `Write`/`Edit`, and a handful of bulk-mutating `Bash`
+patterns (`git rm`, `git mv`, `rm -r`/`-rf`/`-fr`, `find -delete`) —
+unless a meta-skill check or a plan-mode pass already happened this
+turn. A single-file change never trips it. This closes the gap where a
+multi-file task could skip `EnterPlanMode` entirely and never trigger
+the check at all (see `kb/knowledge/plan-mode-skip-blind-spot.md`).
+
 ## Anti-patterns
 
 - Creating a skill "just in case" — that's scope creep, not orientation.

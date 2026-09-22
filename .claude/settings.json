@@ -2,7 +2,7 @@
   "hooks": {
     "PreToolUse": [
       {
-        "matcher": "EnterPlanMode",
+        "matcher": "EnterPlanMode|Write|Edit|Bash",
         "hooks": [
           {
             "type": "command",
@@ -41,6 +41,10 @@
           {
             "type": "command",
             "command": "python3 \"$CLAUDE_PROJECT_DIR/scripts/reflection_guard.py\""
+          },
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/scripts/meta_skill_state_reset.py\""
           }
         ]
       }
