@@ -49,11 +49,17 @@ history if needed.
   `reflection_guard.py` (blocks once every 5th completed task to run the
   `reflection` skill, see memo 0004).
 - `.mcp.json.example` — shape for a project MCP server config.
-- `.claude/agents/researcher.md` — first real custom agent (not just the
-  README stub): read-only research role (`Read, Grep, Glob, WebSearch,
-  WebFetch`, no edit/run/spawn access). Model tier chosen per call
-  against a user-approved policy rather than fixed in frontmatter — see
-  `memos/0008-researcher-subagent.md`.
+- `.claude/agents/researcher.md` — read-only research role (`Read, Grep,
+  Glob, WebSearch, WebFetch`, no edit/run/spawn access). Model tier
+  chosen per call against a user-approved policy rather than fixed in
+  frontmatter — see `memos/0008-researcher-subagent.md`.
+- `.claude/agents/architect.md` — plans only, never executes (`Read,
+  Grep, Glob, Bash, WebSearch, WebFetch`; no `Edit`/`Write`/`Agent`).
+  Two-phase protocol baked into its prompt: high-level plan first,
+  detail only when a specific section is requested, hard refusal on
+  "detail the whole thing in one shot." Orchestrator convention: reuse
+  the same agent instance across section-detail calls rather than
+  fresh-spawning each time — see `memos/0009-architect-subagent.md`.
 
 Search behaviour: `kb_query.py` tries exact syntax, then AND of all
 terms, then OR, so natural-language questions still land. Results are
@@ -72,6 +78,20 @@ ranked by BM25 and ordered `progress` first.
   git identity (`Pavel Nenarokov <schaf_run@...twc1.net>`, not the
   user's own name/email) — git warns on every commit. Offered to set
   `user.name`/`user.email` for this repo; user hasn't asked for it yet.
+
+## Since this session (not yet reflected)
+
+Sent the `researcher` agent on two real research tasks (proven AI-driven
+business models; zero-budget marketing channels for a software agency —
+both delivered as condensed Telegram summaries + attached full docs).
+Then built a second agent, `architect` (memo 0009): discovered mid-plan
+that the Telegram `reply` tool is fully blocked inside plan mode (not
+just `ExitPlanMode`) — `AskUserQuestion` is the only way to reach a
+Telegram user while still planning; used it twice successfully this
+session and documented the refinement in
+`kb/knowledge/telegram-plan-mode-approval.md`. Tool scope for
+`architect` changed mid-design per direct user correction (added
+`Bash`/web tools) — see memo 0009 for why. Not yet committed.
 
 ## Latest reflection
 
