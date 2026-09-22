@@ -55,8 +55,9 @@ history if needed.
   index and (on `Skill`) tracks meta-skill invocations via
   `meta_skill_track.py`; `Stop` runs `checkpoint_guard.py` (blocks once
   when files changed after this file, see memo 0003) then
-  `reflection_guard.py` (blocks once every 5th completed task to run the
-  `reflection` skill, see memo 0004).
+  `reflection_guard.py` (blocks once every 10th completed task to run
+  the `reflection` skill and, per its process, commit its own output —
+  see memos 0004 and 0010).
 - `.mcp.json.example` — shape for a project MCP server config.
 - `.claude/agents/researcher.md` — read-only research role (`Read, Grep,
   Glob, WebSearch, WebFetch`, no edit/run/spawn access). Model tier
@@ -90,20 +91,23 @@ ranked by BM25 and ordered `progress` first.
 
 ## Latest reflection
 
-`kb/history/2026-09-22-researcher-runs-and-architect-agent.md` — two
-`researcher` runs (proven AI-driven business models; zero-budget agency
-marketing channels) followed the exact same deliver pattern twice, so it
-became `.claude/skills/deliver-research/`. Then built `architect`
-(memo 0009): user corrected the initial tool-scope reasoning mid-plan
-(add `Bash`/web, don't exclude them), and plan mode turned out to block
-the Telegram `reply` tool entirely, not just `ExitPlanMode` —
-`AskUserQuestion` is the only channel that reaches a Telegram user while
-still planning (worked twice). Documented as a refinement to
-`kb/knowledge/telegram-plan-mode-approval.md`; flagged that a *third*
-distinct plan-mode/Telegram edge case would be worth a more structural
-fix rather than another patch.
+`kb/history/2026-09-22-concurrency-cap-and-telegram-removal.md` —
+covered the sub-agent concurrency cap (now in `CLAUDE.md` and personal
+memory), the Telegram plugin removal, and a trivial file-size Q&A. No
+recurring pattern worth a new skill. One durable gotcha came out of the
+Telegram removal: `claude plugin uninstall <name>` needs the same
+`--scope` flag the plugin was installed with, or it fails — now in
+`kb/knowledge/claude-plugin-uninstall-scope.md`.
 
-Earlier: `kb/history/2026-09-22-researcher-agent-commit-and-remote-control.md`
+Earlier: `kb/history/2026-09-22-researcher-runs-and-architect-agent.md`
+(two `researcher` runs followed the exact same deliver pattern twice, so
+it became `.claude/skills/deliver-research/`; built `architect`
+(memo 0009) with a user-corrected tool scope; found plan mode blocks the
+Telegram `reply` tool entirely, `AskUserQuestion` is the only channel
+that still reaches Telegram while planning — documented in
+`kb/knowledge/telegram-plan-mode-approval.md` before that note was
+pruned as stale once the Telegram plugin was removed),
+`kb/history/2026-09-22-researcher-agent-commit-and-remote-control.md`
 (researcher sub-agent built end-to-end; Telegram/plan-mode approval
 convention mirrored from personal memory into `kb/knowledge/` so it
 travels with the repo), `kb/history/2026-09-22-telegram-qa-and-concurrent-current-md-edit.md`

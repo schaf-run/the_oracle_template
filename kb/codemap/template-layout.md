@@ -24,7 +24,7 @@ CLAUDE.md                          agent rules — the core deliverable
   skills/kb/SKILL.md               how to query and write the kb
   skills/choose-model/SKILL.md     model tier + effort picker
   skills/create-subagent/SKILL.md  how to author .claude/agents/<name>.md
-  skills/reflection/SKILL.md       retrospective every 5 tasks
+  skills/reflection/SKILL.md       retrospective every 10 tasks
   kb.db                            GENERATED, gitignored
   reflection_state.json            GENERATED, gitignored — task counter
 kb/
@@ -37,7 +37,7 @@ scripts/
   kb_index.py                      builds FTS index + INDEX.md
   kb_query.py                      ranked search
   checkpoint_guard.py              Stop hook: nudge if CURRENT.md is stale
-  reflection_guard.py              Stop hook: nudge reflection every 5 tasks
+  reflection_guard.py              Stop hook: nudge reflection every 10 tasks
 .mcp.json.example                  shape for a project MCP server
 ```
 
